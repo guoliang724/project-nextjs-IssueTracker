@@ -1,6 +1,6 @@
 import "./globals.css";
 import "@radix-ui/themes/styles.css";
-import { Theme } from "@radix-ui/themes";
+import { Container, Theme } from "@radix-ui/themes";
 import "./theme-config.css";
 
 import type { Metadata } from "next";
@@ -24,7 +24,9 @@ export default function RootLayout({
       <body className={inter.variable}>
         <Theme>
           <NavBar />
-          <main className="p-5">{children}</main>
+          <main className="p-5">
+            <Container>{children}</Container>
+          </main>
         </Theme>
       </body>
     </html>
