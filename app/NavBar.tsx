@@ -12,6 +12,7 @@ import {
   Avatar,
   Text,
 } from "@radix-ui/themes";
+import Skeleton from "@/app/components/Skeleton";
 
 const NavBar = () => {
   const currentPath = usePathname();
@@ -62,16 +63,19 @@ const NavBar = () => {
                     <Text size="2">{session.user?.email}</Text>
                   </DropdownMenu.Label>
                   <DropdownMenu.Item>
-                    <Link href="/api/auth/signout">Log out</Link>
+                    <Link href="/api/auth/signout" className="text-base">
+                      Log out
+                    </Link>
                   </DropdownMenu.Item>
                 </DropdownMenu.Content>
               </DropdownMenu.Root>
             )}
             {status === "unauthenticated" && (
-              <Link href="/api/auth/signin" className="text-xs">
+              <Link href="/api/auth/signin" className="text-base">
                 Log in
               </Link>
             )}
+            {status === "loading" && <Skeleton width="3rem" />}
           </Box>
         </Flex>
       </Container>
