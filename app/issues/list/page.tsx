@@ -1,16 +1,28 @@
 import React from "react";
 import { Table } from "@radix-ui/themes";
-import Link from "../../components/Link";
+import { ArrowUpIcon } from "@radix-ui/react-icons";
+import Link from "next/link";
 import prisma from "@/prisma/client";
 import { IssueStatusBadge } from "../../components";
 import IssueActions from "./IssueActions";
 import { Status } from "@prisma/client";
+import { Issue } from "@prisma/client";
 
 const IssuesPage = async ({
   searchParams,
 }: {
-  searchParams: { status: Status };
+  searchParams: { status: Status; orderBy: keyof Issue };
 }) => {
+  const columns: {
+    label: string;
+    value: keyof Issue;
+    className?: string;
+  }[] = [
+    { label: "Issue", value: "title" },
+    { label: "Status", value: "status", className: "hidden md:table-cell" },
+    { label: "Created", value: "createdAt", className: "hidden md:table-cell" },
+  ];
+
   const issues = await prisma.issue.findMany({
     where: {
       status: searchParams.status,
@@ -24,13 +36,16 @@ const IssuesPage = async ({
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
-            <Table.ColumnHeaderCell>Issue</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="hidden md:table-cell">
-              Status
-            </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="hidden md:table-cell">
-              Created
-            </Table.ColumnHeaderCell>
+            {columns.map((c) => (
+              <Table.ColumnHeaderCell key={c.label} className={c.className}>
+                <Link href={{ query: { ...searchParams, orderBy: c.value } }}>
+                  {c.label}
+                </Link>
+                {c.value === searchParams.orderBy && (
+                  <ArrowUpIcon className="inline" />
+                )}
+              </Table.ColumnHeaderCell>
+            ))}
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -38,7 +53,6 @@ const IssuesPage = async ({
             <Table.Row key={issue.id}>
               <Table.Cell>
                 <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
-
                 <div className="block md:hidden">
                   <IssueStatusBadge status={issue.status} />
                 </div>
