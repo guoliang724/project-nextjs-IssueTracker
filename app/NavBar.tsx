@@ -4,7 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AiFillBug } from "react-icons/ai";
 import { useSession } from "next-auth/react";
-import { Box } from "@radix-ui/themes";
+import {
+  Box,
+  Flex,
+  Container,
+  DropdownMenu,
+  Avatar,
+  Text,
+} from "@radix-ui/themes";
 
 const NavBar = () => {
   const currentPath = usePathname();
@@ -14,38 +21,60 @@ const NavBar = () => {
     { label: "Issues", href: "/issues/list" },
   ];
   return (
-    <nav className="flex space-x-6 border-b mb-5 px-5 h-14 items-center">
-      <Link href="/">
-        <AiFillBug />
-        <div></div>
-      </Link>
-      <ul className="flex flex-row space-x-6">
-        {links.map((link) => (
-          <li key={link.href}>
-            <Link
-              className={classNames({
-                "text-zinc-900": link.href === currentPath,
-                "text-zinc-500": link.href !== currentPath,
-              })}
-              href={link.href}
-            >
-              {link.label}
+    <nav className="border-b mb-5 px-5 py-3">
+      <Container>
+        <Flex justify="between">
+          <Flex align="center" gap="3">
+            <Link href="/">
+              <AiFillBug />
+              <div></div>
             </Link>
-          </li>
-        ))}
-      </ul>
-      <Box>
-        {status === "authenticated" && (
-          <Link href="/api/auth/signout" className="text-base">
-            Log out
-          </Link>
-        )}
-        {status === "unauthenticated" && (
-          <Link href="/api/auth/signin" className="text-xs">
-            Log in
-          </Link>
-        )}
-      </Box>
+            <ul className="flex flex-row space-x-6">
+              {links.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    className={classNames({
+                      "text-zinc-900": link.href === currentPath,
+                      "text-zinc-500": link.href !== currentPath,
+                    })}
+                    href={link.href}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </Flex>
+          <Box>
+            {status === "authenticated" && (
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger>
+                  <Avatar
+                    src={session.user!.image!}
+                    fallback="?"
+                    size="2"
+                    radius="full"
+                    className="cursor-pointer"
+                  ></Avatar>
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content>
+                  <DropdownMenu.Label>
+                    <Text size="2">{session.user?.email}</Text>
+                  </DropdownMenu.Label>
+                  <DropdownMenu.Item>
+                    <Link href="/api/auth/signout">Log out</Link>
+                  </DropdownMenu.Item>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
+            )}
+            {status === "unauthenticated" && (
+              <Link href="/api/auth/signin" className="text-xs">
+                Log in
+              </Link>
+            )}
+          </Box>
+        </Flex>
+      </Container>
     </nav>
   );
 };
