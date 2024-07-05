@@ -43,7 +43,7 @@ const IssueDetailPage = async ({ params }: Props) => {
 
 export default IssueDetailPage;
 
-export async function generatemetadata({ params }: Props) {
+export async function generateMetadata({ params }: Props) {
   const issue = await fetchUser(parseInt(params.id));
 
   return {
