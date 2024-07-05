@@ -10,3 +10,4 @@
 |      Token       | JWT                                                                                  |
 | Type Validation  | zod                                                                                  |
 | State Management | react-query                                                                          |
+|  Error Tracking  | Sentry                                                                               |
