@@ -8,6 +8,7 @@ import { Inter } from "next/font/google";
 import { NextAuthProvider } from "./auth/NextAuthProvider";
 import NavBar from "./NavBar";
 import QuerryClientProvider from "./QuerryClientProvider";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -29,7 +30,9 @@ export default function RootLayout({
             <Theme>
               <NavBar />
               <main className="p-5">
-                <Container>{children}</Container>
+                <Container>
+                  <Suspense>{children}</Suspense>
+                </Container>
               </main>
             </Theme>
           </NextAuthProvider>
