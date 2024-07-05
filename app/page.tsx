@@ -1,5 +1,8 @@
 import prisma from "@/prisma/client";
 import IssueSummary from "./IssueSummary";
+import IssueChart from "./IssueChart";
+import { Grid, Flex } from "@radix-ui/themes";
+import LatestIssues from "./LatestIssues";
 
 export default async function Home({
   searchParams,
@@ -19,10 +22,12 @@ export default async function Home({
   });
 
   return (
-    <IssueSummary
-      open={open}
-      closed={close}
-      inProgress={inProgress}
-    ></IssueSummary>
+    <Grid columns={{ initial: "1", md: "2" }} gap="5">
+      <Flex direction="column" gap="5">
+        <IssueSummary open={open} closed={close} inProgress={inProgress} />
+        <IssueChart open={open} closed={close} inProgress={inProgress} />
+      </Flex>
+      <LatestIssues />
+    </Grid>
   );
 }
