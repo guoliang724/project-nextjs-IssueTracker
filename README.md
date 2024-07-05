@@ -1,5 +1,7 @@
 ### Issue Tracker
 
+This is a fast, responsive application.
+
 #### Please visit: https://issue-tracker-bay-alpha.vercel.app/ . Thanks for visiting
 
 #### Stack:
