@@ -5,11 +5,7 @@ import { Grid, Flex } from "@radix-ui/themes";
 import LatestIssues from "./LatestIssues";
 import { Metadata } from "next";
 
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: { page: string };
-}) {
+export default async function Home() {
   const open = await prisma.issue.count({
     where: { status: "OPEN" },
   });

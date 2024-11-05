@@ -28,7 +28,6 @@ const NavBar = () => {
           <Flex align="center" gap="3">
             <Link href="/">
               <AiFillBug />
-              <div></div>
             </Link>
             <ul className="flex flex-row space-x-6">
               {links.map((link) => (
